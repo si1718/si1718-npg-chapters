@@ -1,0 +1,23 @@
+{
+  "name": "si1718-npg-chapters",
+  "version": "1.0.0",
+  "description": "si1718-npg-chapters initialize with git flow structure.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/si1718/si1718-npg-chapters.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/si1718/si1718-npg-chapters/issues"
+  },
+  "homepage": "https://github.com/si1718/si1718-npg-chapters#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
