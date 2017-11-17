@@ -88,7 +88,7 @@ router.post("/", (req, res) => {
                     console.error("ERROR: Cannot save a new chapter because: " + error);
                     return res.status(500).send("There was a problem adding the information to the database.");
                 } else {
-                    res.status(200).send(chapter);
+                    res.status(201).send(chapter);
                 }
             });
         }
