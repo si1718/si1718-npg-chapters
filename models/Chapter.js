@@ -1,9 +1,11 @@
 var mongoose = require("mongoose");
 
 var ChapterSchema = new mongoose.Schema({
+   idChapter: String,
    book: String,
    name: String,
-   authors: String,
+   researchersName: [String],
+   researchers: [String],
    pages: String
 });
 

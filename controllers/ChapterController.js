@@ -7,74 +7,171 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 var Chapter = require("../models/Chapter");
 
-router.get("/", function(req, res) {
+// GET ALL
+router.get("/", (req, res) => {
     
-    Chapter.find({}, function(err, chapters) {
+    console.info("INFO: New GET request to " + req.originalUrl);
+    
+    Chapter.find({}, (error, chapters) => {
         
-        if(err) {
-            return res.status(500).send("There was a problem finding the chapters.");
+        if(error) {
+            console.error("ERROR: Error getting chapters from database");
+            return res.status(500).send("There was a problem finding chapters.");
         } else {
             res.status(200).send(chapters);
         }
     });
 });
 
-router.get("/:id", function(req, res) {
+// GET SPECIFIC
+router.get("/:idChapter", (req, res) => {
     
-    Chapter.findById(req.params.id, function(err, chapter) {
+    console.info("INFO: GET request to " + req.originalUrl);
+    
+    let idChapter = req.params.idChapter;
+    
+    if(!idChapter) {
         
-        if(err) {
-            return res.status(500).send("There was a problem finding the chapter.");
-        }
+        console.warn("WARNING: GET request to " + req.originalUrl + " without idChapter");
+        res.status(400).send("Please indicate to /chapters/:idChapter param");
         
-        if(!chapter) {
-            return res.status(404).send("No chapter found.");
-        }
+    } else {
         
-        res.status(200).send(chapter);
-    });
+        Chapter.findOne({"idChapter" : idChapter}, (error, chapter) => {
+        
+            if(error) {
+                console.error("ERROR: Error getting chapters from database");
+                return res.status(500).send("There was a problem finding the chapter.");
+            }
+            
+            if(!chapter) {
+                return res.status(404).send("No chapter found with idChapter: " + idChapter);
+            }
+            
+            res.status(200).send(chapter);
+        });
+    }
+
 });
 
-router.post("/", function(req, res) {
+// POST SPECIFIC
+router.post("/", (req, res) => {
     
-    Chapter.create({
-        book: req.body.book,
-        name: req.body.name,
-        authors: req.body.authors,
-        pages: req.body.pages
+    console.info("INFO: POST request to " + req.originalUrl);
+    
+    let body = req.body;
+    
+    if(!body) {
         
-    }, function(err, contact) {
+        console.warn("WARNING: Body data not found.");
+        res.status(400).send("Please, indicate data to create a new chapter");
         
-        if(err) {
-            return res.status(500).send("There was a problea adding the information to the database.");
+    } else {
+        
+        if(!body.idChapter || !body.book || !body.name || !body.pages || !body.researchers || !body.researchersName) {
+            
+            console.warn("WARNING: The body to new chapter " + JSON.stringify(body, 2, null) + " is not well-formed.");
+            res.status(422).send("Please, indicate correct data to create a new chapter");
+            
         } else {
-            res.status(200).send(contact);
+            
+            Chapter.create({
+                idChapter: body.idChapter,
+                book: body.book,
+                name: body.name,
+                pages: body.pages,
+                researchers: body.researchers,
+                researchersName: body.researchersName
+            }, (error, chapter) => {
+                
+                if(error) {
+                    console.error("ERROR: Cannot save a new chapter because: " + error);
+                    return res.status(500).send("There was a problem adding the information to the database.");
+                } else {
+                    res.status(200).send(chapter);
+                }
+            });
         }
-    });
+    }
+
 });
 
-router.put("/:id", function(req, res) {
+// PUT SPECIFIC
+router.put("/:idChapter", (req, res) => {
     
-    Chapter.findByIdAndUpdate(req.params.id, req.body, function(err, chapter) {
+    console.info("INFO: PUT request to: " + req.originalUrl);
+    
+    let idChapter = req.params.idChapter;
+    
+    if(!idChapter) {
         
-        if(err) {
-            return res.status(500).send("There was a problem updating the chapter.");
-        }
+        console.warn("WARNING: PUT request to " + req.originalUrl + " without idChapter");
+        res.status(400).send("Please indicate to /chapters/:idChapter param");
         
-        res.status(200).send(chapter);
-    });
+    } else {
+        
+        let body = req.body;
+        
+        Chapter.findOneAndUpdate({"idChapter" : idChapter}, body, (error, chapter) => {
+            
+            if(error) {
+                
+                console.error("ERROR: Cannot updated chapter from database because: " + error);
+                res.status(500).send("Sorry, cannot do this operation.");
+                
+            } else {
+                
+                res.status(200).send(chapter);
+            }
+        });
+    }
 });
 
-router.delete("/:id", function(req, res) {
+// DELETE ALL
+router.delete('/', (req, res) => {
     
-    Chapter.findByIdAndRemove(req.params.id, function(err, chapter) {
+    console.info("INFO: DELETE request to: " + req.originalUrl);
+    
+    Chapter.deleteMany({}, (error, chapter) => {
         
-        if(err) {
-            return res.status(500).send("There was a problem deleting the chapter.");
+        if(error) {
+            console.error("ERROR: Cannot delete data from database.");
+            return res.status(500).send("There was a problem deleting chapters.");
         }
         
-        res.status(200).send("Chapter " + chapter.name + " was deleted.");
+        res.status(200).send("All chapters removed succesfully.");
     });
+
+});
+
+// DELETE SPECIFIC
+router.delete("/:idChapter", (req, res) => {
+    
+    console.info("INFO: DELETE request to: " + req.originalUrl);
+    
+    let idChapter = req.params.idChapter;
+    
+    if(!idChapter) {
+        
+        console.warn("WARNING: DELETE request to " + req.originalUrl + " without idChapter");
+        res.status(400).send("Please indicate to /chapters/:idChapter param");
+        
+    } else {
+        
+        Chapter.deleteOne({"idChapter" : idChapter}, (error, chapter) => {
+            
+            if(error) {
+                
+                console.error("ERROR: Cannot removed chapter from database because: " + error);
+                res.status(500).send("Sorry, cannot do this operation.");
+                
+            } else {
+                
+                res.status(200).send("Chapter deleted successfully.");
+            }
+        });
+    }
+    
 });
 
 module.exports = router;
