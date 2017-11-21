@@ -68,7 +68,7 @@ router.post("/", (req, res) => {
         
     } else {
         
-        if(!body.idChapter || !body.book || !body.name || !body.pages || !body.researchers || !body.researchersName) {
+        if(!body.book || !body.name || !body.pages || !body.researchers || !body.researchersName) {
             
             console.warn("WARNING: The body to new chapter " + JSON.stringify(body, 2, null) + " is not well-formed.");
             res.status(422).send("Please, indicate correct data to create a new chapter");
@@ -76,7 +76,7 @@ router.post("/", (req, res) => {
         } else {
             
             Chapter.create({
-                idChapter: body.idChapter,
+                idChapter: Chapter.generateChapterId(body.book, body.name, body.researchers),
                 book: body.book,
                 name: body.name,
                 pages: body.pages,
@@ -112,7 +112,9 @@ router.put("/:idChapter", (req, res) => {
         
         let body = req.body;
         
-        Chapter.findOneAndUpdate({"idChapter" : idChapter}, body, (error, chapter) => {
+        // body.idChapter = Chapter.generateChapterId("1234", "Demo", ["0000-0001-5217-865"].toString());
+        
+        Chapter.findOneAndUpdate({"idChapter" : idChapter}, body, {new: true}, (error, chapter) => {
             
             if(error) {
                 
