@@ -19,6 +19,7 @@
   "homepage": "https://github.com/si1718/si1718-npg-chapters#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "config-yml": "^0.8.0",
     "express": "^4.16.2",
     "helmet": "^3.9.0",
     "mongoose": "^4.13.0",

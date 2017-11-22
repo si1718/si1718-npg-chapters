@@ -10,7 +10,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(helmet());
 
-var ChapterController = require("./controllers/ChapterController");
+var ChapterController = require("./chapters/ChapterController");
 app.use(baseURL + "/chapters", ChapterController);
 
 module.exports = app;
