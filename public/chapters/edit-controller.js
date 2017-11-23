@@ -8,36 +8,51 @@ app.controller("EditController", ["$scope", "$http", "$routeParams", "$location"
     $http
         .get("/api/v1/chapters/" + $scope.idChapter)
         .then(function(response) {
-            
+
             $scope.updateChapter = response.data;
-            
-            if(Array.isArray($scope.updateChapter.researchersName)) {
+
+            if (Array.isArray($scope.updateChapter.researchersName)) {
                 $scope.updateChapter.researchersName = $scope.updateChapter.researchersName.toString();
             }
-            
-            if(Array.isArray($scope.updateChapter.researchers)) {
+
+            if (Array.isArray($scope.updateChapter.researchers)) {
                 $scope.updateChapter.researchers = $scope.updateChapter.researchers.toString();
             }
-            
+
         }, function(error) {
-            alert(error.data);
+            iziToast.error({
+                icon: "fa fa-times",
+                title: 'Error!',
+                position: "topRight",
+                message: error.data
+            });
         });
 
     $scope.putChapter = function() {
 
         delete $scope.updateChapter._id;
-        
-        $scope.updateChapter.researchersName = $scope.updateChapter.researchersName.split(",");
-        $scope.updateChapter.researchers = $scope.updateChapter.researchers.split(",");
+
+        if ($scope.newChapter.researchersName.length > 0) {
+            $scope.newChapter.researchersName = $scope.newChapter.researchersName.split(",");
+        }
+
+        if ($scope.newChapter.researchers.length > 0) {
+            $scope.newChapter.researchers = $scope.newChapter.researchers.split(",");
+        }
 
         $http
             .put("/api/v1/chapters/" + $scope.idChapter, $scope.updateChapter)
             .then(function(response) {
                 $location.path("/");
             }, function(error) {
-                alert(error.data);
+                iziToast.error({
+                    icon: "fa fa-times",
+                    title: 'Error!',
+                    position: "topRight",
+                    message: error.data
+                });
             });
-            
+
         $scope.updateChapter = null;
     };
 

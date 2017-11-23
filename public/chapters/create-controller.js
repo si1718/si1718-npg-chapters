@@ -4,16 +4,26 @@ var app = angular.module("ChapterManagerApp");
 app.controller("CreateController", ["$scope", "$http", "$location", function($scope, $http, $location) {
 
     $scope.postChapter = function() {
-
-        $scope.newChapter.researchersName = $scope.newChapter.researchersName.split(",");
-        $scope.newChapter.researchers = $scope.newChapter.researchers.split(",");
+        
+        if($scope.newChapter.researchersName.length > 0) {
+            $scope.newChapter.researchersName = $scope.newChapter.researchersName.split(",");
+        }
+        
+        if($scope.newChapter.researchers.length > 0) {
+            $scope.newChapter.researchers = $scope.newChapter.researchers.split(",");
+        }
 
         $http
             .post("/api/v1/chapters", $scope.newChapter)
             .then(function(response) {
                 $location.path("/");
             }, function(error) {
-                alert(error.data);
+                iziToast.error({
+                    icon: "fa fa-times",
+                    title: 'Error!',
+                    position: "topRight",
+                    message: error.data
+                });
             });
 
         initializeNewChapter();
