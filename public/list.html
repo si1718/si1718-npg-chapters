@@ -1,0 +1,127 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h1 class="text-center">
+                Chapters
+            </h1>
+
+        </div>
+
+        <div class="col-xs-12">
+            <hr />
+        </div>
+
+        <div class="col-xs-12">
+
+            <div class="table-responsive">
+                <table id="dataTable-chapters" class="table table-hover table-striped table-bordered">
+                    
+                    <thread>
+                        <tr>
+                            <th class="text-center">
+                                Book
+                            </th>
+                            <th class="text-center">
+                                Name
+                            </th>
+                            <th class="text-center">
+                                Pages
+                            </th>
+                            <th class="text-center">
+                                Researchers`s name
+                            </th>
+                            <th class="text-center">
+                                Researchers`s key
+                            </th>
+                            <th class="text-center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thread>
+    
+                    <tbody>
+                        <tr ng-repeat="chapter in chapters">
+                            <td class="text-center">
+                                <a href="#!/chapters/{{chapter.idChapter}}/edit" class="btn btn-primary">
+                                    {{chapter.book}}
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                {{chapter.name}}
+                            </td>
+                            <td class="text-center">
+                                {{chapter.pages}}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge" ng-repeat="researcherName in chapter.researchersName">
+                                    {{researcherName}}
+                                </span>
+                                &nbsp;
+                            </td>
+                            <td class="text-center">
+                                <span class="badge" ng-repeat="researcher in chapter.researchers">
+                                    {{researcher}}
+                                </span>
+                                &nbsp;
+                            </td>
+                            <td class="text-center">
+                                <button ng-click="deleteChapter(chapter.idChapter)" class="btn btn-danger btn-block">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                    <tfooter>
+                        <tr>
+                            <td>
+                                <input type="text" id="book" class="form-control" ng-model="searchChapter.book" placeholder="Book's ISBN" required />
+                            </td>
+                            <td>
+                                <input type="text" id="name" class="form-control" ng-model="searchChapter.name" placeholder="Chapter's Name" required />
+                            </td>
+                            <td>
+                                <input type="text" id="pages" class="form-control" ng-model="searchChapter.pages" placeholder="Chapter's Pages" required />
+                            </td>
+                            <td>
+                                <input type="text" id="researchersName" class="form-control" ng-model="searchChapter.researchersName" placeholder="Researchers's Name" required />
+                            </td>
+                            <td>
+                                <input type="text" id="researchers" class="form-control" ng-model="searchChapter.researchers" placeholder="Researchers's Key" required />
+                            </td>
+                            <td>
+                                <button class="btn btn-info btn-block" ng-click="searchChapters()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfooter>
+                    
+                </table>
+            </div>
+
+        </div>
+        
+        <div class="col-xs-offset-3 col-xs-6">
+            <a href="#!/chapters/create" class="btn btn-success btn-block">
+                <i class="fa fa-plus"></i>
+                Add
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        
+        // $('#dataTable-chapters').DataTable({
+        //     responsive: true,
+        // });
+    });
+    
+</script>
