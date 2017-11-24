@@ -17,7 +17,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 app.use(jwt({
-    secret: config.app.secret,
+    secret: config.app.salt,
 }).unless({ path: ['/api/v1/*'] }));
 
 var ChapterController = require("./chapters/ChapterController");

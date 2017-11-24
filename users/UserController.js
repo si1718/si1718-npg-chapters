@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var jwt = require('jsonwebtoken');
 var config = require("config-yml");
+var bcrypt = require('bcrypt');
 
 var router = express.Router();
 
@@ -63,7 +64,7 @@ router.post('/authenticate', (req, res) => {
 
                     if (user) {
 
-                        if(user.password != req.body.password) {
+                        if(bcrypt.compareSync(req.body.password, user.password)) {
                             
                             return res.status(400).send("Authentication failed. Wrong password.");
                             
@@ -74,7 +75,7 @@ router.post('/authenticate', (req, res) => {
                                 name: user.name
                             };
                             
-                            var token = jwt.sign(payload, config.app.secret, {
+                            var token = jwt.sign(payload, config.app.salt, {
                                 expiresIn: '100d'
                             });
                             
@@ -128,6 +129,10 @@ router.post("/", (req, res) => {
                         return res.status(409).send("The indicated user already exists.");
 
                     } else {
+                        
+                        var salt = bcrypt.genSaltSync(config.app.saltRounds);
+                        var hash = bcrypt.hashSync(body.password, salt);
+                        body.password = hash;
 
                         User.create(body, (error, user) => {
 
