@@ -23,8 +23,11 @@
     "bower": "^1.8.2",
     "config-yml": "^0.8.0",
     "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
     "helmet": "^3.9.0",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.4",
+    "morgan": "^1.9.0",
     "path": "^0.12.7",
     "slugify": "^1.2.4"
   }

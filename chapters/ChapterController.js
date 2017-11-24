@@ -9,8 +9,6 @@ var Chapter = require("./Chapter");
 
 // GET method to get all chapters saved in the database.
 router.get("/", (req, res) => {
-
-    console.info("INFO: New GET request to " + req.originalUrl);
     
     var query = {};
 
@@ -27,8 +25,7 @@ router.get("/", (req, res) => {
             console.error("ERROR: Error getting chapters from database");
             return res.status(500).send("There was a problem finding chapters.");
 
-        }
-        else {
+        } else {
 
             return res.status(200).send(chapters);
         }
@@ -38,8 +35,6 @@ router.get("/", (req, res) => {
 // GET method to get chapters with id equals to idChapter.
 router.get("/:idChapter", (req, res) => {
 
-    console.info("INFO: GET request to " + req.originalUrl);
-
     let idChapter = req.params.idChapter;
 
     if (!idChapter) {
@@ -47,8 +42,7 @@ router.get("/:idChapter", (req, res) => {
         console.warn("WARNING: GET request to " + req.originalUrl + " without idChapter");
         return res.status(400).send("Please indicate to /chapters/:idChapter param");
 
-    }
-    else {
+    } else {
 
         Chapter.findOne({ "idChapter": idChapter }, (error, chapter) => {
 
@@ -57,15 +51,13 @@ router.get("/:idChapter", (req, res) => {
                 console.error("ERROR: Error getting chapters from database");
                 return res.status(500).send("There was a problem finding the chapter.");
 
-            }
-            else {
+            } else {
 
                 if (chapter) {
 
                     return res.status(200).send(chapter);
 
-                }
-                else {
+                } else {
 
                     return res.status(404).send("No chapter found with idChapter: " + idChapter);
                 }
@@ -77,8 +69,6 @@ router.get("/:idChapter", (req, res) => {
 // POST method to saved a new indicated chapter.
 router.post("/", (req, res) => {
 
-    console.info("INFO: POST request to " + req.originalUrl);
-
     let body = req.body;
 
     if (!body) {
@@ -86,16 +76,14 @@ router.post("/", (req, res) => {
         console.warn("WARNING: Body data not found.");
         return res.status(400).send("Please, indicate data to create a new chapter");
 
-    }
-    else {
+    } else {
 
         if (!body.book || !body.name || !body.pages || !body.researchers || !body.researchersName) {
 
             console.warn("WARNING: The body to new chapter " + JSON.stringify(body, 2, null) + " is not well-formed.");
             return res.status(422).send("Please, indicate correct data to create a new chapter");
 
-        }
-        else {
+        } else {
 
             let idChapter = Chapter.generateChapterId(body.book, body.name, body.researchers);
             body.idChapter = idChapter;
@@ -107,16 +95,14 @@ router.post("/", (req, res) => {
                     console.error("ERROR: Error getting chapters from database");
                     return res.status(500).send("There was a problem finding the chapter.");
 
-                }
-                else {
+                } else {
 
                     if (chapter) {
 
                         console.warn("WARNING: The indicated chapter " + JSON.stringify(body, 2, null) + " already exists");
                         return res.status(409).send("The indicated chapter already exists.");
 
-                    }
-                    else {
+                    } else {
 
                         Chapter.create({
                             idChapter: body.idChapter,
@@ -132,8 +118,7 @@ router.post("/", (req, res) => {
                                 console.error("ERROR: Cannot save a new chapter because: " + error);
                                 return res.status(500).send("There was a problem adding the information to the database.");
 
-                            }
-                            else {
+                            } else {
 
                                 return res.status(201).send(chapter);
                             }
@@ -147,15 +132,11 @@ router.post("/", (req, res) => {
 
 // POST method to saved a specific chapter.
 router.post("/:idChapter", (req, res) => {
-
-    console.info("INFO: POST request to " + req.originalUrl);
     return res.status(405).send("This method isn't allowed.");
 });
 
 // PUT method to update a specific chapter.
 router.put("/:idChapter", (req, res) => {
-
-    console.info("INFO: PUT request to: " + req.originalUrl);
 
     let idChapter = req.params.idChapter;
 
@@ -164,8 +145,7 @@ router.put("/:idChapter", (req, res) => {
         console.warn("WARNING: PUT request to " + req.originalUrl + " without idChapter");
         return res.status(400).send("Please indicate to /chapters/:idChapter param");
 
-    }
-    else {
+    } else {
 
         let body = req.body;
 
@@ -176,15 +156,13 @@ router.put("/:idChapter", (req, res) => {
                 console.error("ERROR: Cannot updated chapter from database because: " + error);
                 return res.status(500).send("Sorry, cannot do this operation.");
 
-            }
-            else {
+            } else {
 
                 if (chapter) {
 
                     return res.status(200).send(chapter);
 
-                }
-                else {
+                } else {
 
                     return res.status(404).send("Chapter " + idChapter + " not found.");
                 }
@@ -195,15 +173,11 @@ router.put("/:idChapter", (req, res) => {
 
 // PUT method to update all chapters.
 router.put("/", (req, res) => {
-
-    console.info("INFO: PUT request to " + req.originalUrl);
     return res.status(405).send("This method isn't allowed.");
 });
 
 // DELETE method to delete all chapters saved in the database.
 router.delete('/', (req, res) => {
-
-    console.info("INFO: DELETE request to: " + req.originalUrl);
 
     Chapter.deleteMany({}, (error, chapter) => {
 
@@ -212,8 +186,7 @@ router.delete('/', (req, res) => {
             console.error("ERROR: Cannot delete data from database.");
             return res.status(500).send("There was a problem deleting chapters.");
 
-        }
-        else {
+        } else {
 
             return res.status(200).send("All chapters removed succesfully.");
         }
@@ -224,8 +197,6 @@ router.delete('/', (req, res) => {
 // DELETE method to delete specific chapter in the database.
 router.delete("/:idChapter", (req, res) => {
 
-    console.info("INFO: DELETE request to: " + req.originalUrl);
-
     let idChapter = req.params.idChapter;
 
     if (!idChapter) {
@@ -233,8 +204,7 @@ router.delete("/:idChapter", (req, res) => {
         console.warn("WARNING: DELETE request to " + req.originalUrl + " without idChapter");
         return res.status(400).send("Please indicate to /chapters/:idChapter param");
 
-    }
-    else {
+    } else {
 
         Chapter.deleteOne({ "idChapter": idChapter }, (error, chapter) => {
 
@@ -243,15 +213,13 @@ router.delete("/:idChapter", (req, res) => {
                 console.error("ERROR: Cannot removed chapter from database because: " + error);
                 return res.status(500).send("Sorry, cannot do this operation.");
 
-            }
-            else {
+            } else {
 
                 if (chapter) {
 
                     return res.status(200).send("Chapter deleted successfully.");
 
-                }
-                else {
+                } else {
 
                     return res.status(404).send("Chapter not found.");
                 }
