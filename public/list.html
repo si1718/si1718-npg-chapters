@@ -1,16 +1,71 @@
 <div class="container">
 
     <div class="row">
+        
         <div class="col-xs-12">
-
-            <h1 class="text-center">
-                Chapters
-            </h1>
+            
+            <div class="row">
+                <div class="col-xs-offset-3 col-xs-6 text-center">
+                    <h1>
+                        Chapters
+                    </h1>
+                </div>
+                
+                <div class="col-xs-3" style="margin-top: 2%;">
+                    <a href="#!/chapters/create" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        Add
+                    </a>
+                </div>
+            </div>
 
         </div>
 
         <div class="col-xs-12">
             <hr />
+        </div>
+        
+        <div class="col-xs-12">
+            <div class="row">
+                
+                <div class="col-xs-3">
+                    <form class="form-inline" style="margin-top: 8%;">
+                        Show
+                        <select class="form-control input-sm" ng-model="itemsPerPage" ng-change="reload()">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</opion>
+                        </select>
+                        chapters
+                    </form>
+                </div>
+                
+                <div class="col-xs-6 text-center">
+                    
+                    <ul uib-pagination
+                        boundary-links="true"
+                        total-items="totalItems"
+                        ng-model="currentPage"
+                        max-size="maxButtonSize"
+                        items-per-page="itemsPerPage"
+                        ng-change="pageChanged()"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;"
+                        last-text="&raquo;">
+                    </ul>
+                    
+                </div>
+                
+                <div class="col-xs-3">
+                    <p style="margin-top: 11%;">
+                        Showing {{firstElement}} to {{lastElement}} of {{totalItems}} chapters.
+                    </p>
+                </div>
+                
+            </div>
         </div>
 
         <div class="col-xs-12">
@@ -92,7 +147,7 @@
                                 <input type="text" id="researchers" class="form-control" ng-model="searchChapter.researchers" placeholder="Researchers's Key" required />
                             </td>
                             <td>
-                                <button class="btn btn-info btn-block" ng-click="searchChapters()">
+                                <button class="btn btn-info btn-block" ng-click="reload(true)">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </td>
@@ -104,24 +159,49 @@
 
         </div>
         
-        <div class="col-xs-offset-3 col-xs-6">
-            <a href="#!/chapters/create" class="btn btn-success btn-block">
-                <i class="fa fa-plus"></i>
-                Add
-            </a>
+        <div class="col-xs-12">
+            <div class="row">
+                
+                <div class="col-xs-3">
+                    <form class="form-inline" style="margin-top: 8%;">
+                        Show
+                        <select class="form-control input-sm" ng-model="itemsPerPage" ng-change="reload()">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        chapters
+                    </form>
+                </div>
+                
+                <div class="col-xs-6 text-center">
+                    
+                    <ul uib-pagination
+                        boundary-links="true"
+                        total-items="totalItems"
+                        ng-model="currentPage"
+                        max-size="maxButtonSize"
+                        items-per-page="itemsPerPage"
+                        ng-change="pageChanged()"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;"
+                        last-text="&raquo;">
+                    </ul>
+                    
+                </div>
+                
+                <div class="col-xs-3">
+                    <p style="margin-top: 11%;">
+                        Showing {{((currentPage - 1) * itemsPerPage) + 1}} to {{currentPage * itemsPerPage}} of {{totalItems}} chapters.
+                    </p>
+                </div>
+                
+            </div>
         </div>
 
     </div>
 
 </div>
-
-<script type="text/javascript">
-
-    $(document).ready(function() {
-        
-        // $('#dataTable-chapters').DataTable({
-        //     responsive: true,
-        // });
-    });
-    
-</script>

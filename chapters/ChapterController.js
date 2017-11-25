@@ -11,14 +11,19 @@ var Chapter = require("./Chapter");
 router.get("/", (req, res) => {
     
     var query = {};
+    var fields = ["book", "name", "pages", "researchersName", "researchers"];
 
-    for (var key in req.query) {
+    for(var i = 0; i < fields.length; i++) {
+        var key = fields[i];
         if (req.query.hasOwnProperty(key)) {
             query[key] = { $regex: '.*' + req.query[key] + '.*', $options: 'i' };
         }
     }
+    
+    var skip = (req.query.skip) ? parseInt(req.query.skip, 10) : 0;
+    var limit = (req.query.limit) ? parseInt(req.query.limit, 10) : 100;
 
-    Chapter.find(query, (error, chapters) => {
+    Chapter.find(query, null, {skip: skip, limit: limit, order: "name"}, (error, chapters) => {
 
         if (error) {
 
@@ -26,8 +31,25 @@ router.get("/", (req, res) => {
             return res.status(500).send("There was a problem finding chapters.");
 
         } else {
-
-            return res.status(200).send(chapters);
+            
+            Chapter.count(query, (error, count) => {
+                
+                if(error) {
+                    
+                    console.error("ERROR: Error getting chapters from database");
+                    return res.status(500).send("There was a problem finding chapters.");
+                    
+                } else {
+                    
+                    return res.status(200).send({
+                        data: chapters,
+                        total: count,
+                        offset: skip,
+                        limit: limit
+                    });
+                }
+                
+            });
         }
     });
 });

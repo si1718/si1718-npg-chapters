@@ -1,5 +1,6 @@
 var app = angular.module("ChapterManagerApp", [
-    "ngRoute"
+    "ngRoute",
+    "ui.bootstrap"
 ]).config(function($routeProvider) {
     
     console.log("App Initialized!");
