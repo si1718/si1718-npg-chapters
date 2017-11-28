@@ -32,12 +32,12 @@ app.controller("EditController", ["$scope", "$http", "$routeParams", "$location"
 
         delete $scope.updateChapter._id;
 
-        if ($scope.newChapter.researchersName.length > 0) {
-            $scope.newChapter.researchersName = $scope.newChapter.researchersName.split(",");
+        if (($scope.updateChapter.researchersName) && ($scope.updateChapter.researchersName.length > 0)) {
+            $scope.updateChapter.researchersName = $scope.updateChapter.researchersName.split(",");
         }
 
-        if ($scope.newChapter.researchers.length > 0) {
-            $scope.newChapter.researchers = $scope.newChapter.researchers.split(",");
+        if (($scope.updateChapter.researchers) && ($scope.updateChapter.researchers.length > 0)) {
+            $scope.updateChapter.researchers = $scope.updateChapter.researchers.split(",");
         }
 
         $http
