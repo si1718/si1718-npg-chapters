@@ -20,8 +20,8 @@ app.use(jwt({
     secret: config.app.salt,
 }).unless({
     path: [
-        /^\/api\/v1\/.*/,
-        /^\/api\/v1.1\/users\/.*/
+        /^\/api\/v1\/.*/,               // /api/v1/*
+        /^\/api\/v1.1\/users\/.*/       // /api/v1.1/users/*
     ]
 }));
 
