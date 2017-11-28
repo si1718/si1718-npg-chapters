@@ -8,6 +8,7 @@ var path = require("path");
 var jwt = require('express-jwt');
 var morgan = require("morgan");
 var config = require("config-yml");
+var cors = require('cors');
 
 var app = express();
 
@@ -15,6 +16,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(morgan("dev"));
+app.use(cors());
 
 app.use(jwt({
     secret: config.app.salt,
