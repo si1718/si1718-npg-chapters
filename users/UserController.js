@@ -64,7 +64,7 @@ router.post('/authenticate', (req, res) => {
 
                     if (user) {
 
-                        if(bcrypt.compareSync(req.body.password, user.password)) {
+                        if(!bcrypt.compareSync(req.body.password, user.password)) {
                             
                             return res.status(400).send("Authentication failed. Wrong password.");
                             
