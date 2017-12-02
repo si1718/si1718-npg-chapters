@@ -10,7 +10,15 @@ describe('Data is loaded', () => {
 
     it('Should show a list of more than two chapters', () => {
 
-        browser.get('http://localhost:8080');
+        browser.get('http://localhost:8080').then(function () {
+                
+                
+                browser.takeScreenshot().then((png) => {
+                    writeScreenShot(png, 'test/screenshots/test.png');
+                });
+
+                
+        });
         
         browser.driver.sleep(2000);
 
