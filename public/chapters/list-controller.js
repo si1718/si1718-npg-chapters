@@ -8,11 +8,11 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
     $scope.totalItems = $scope.itemsPerPage;
     $scope.maxButtonSize = 5;
 
-    $scope.setPage = function(pageNo) {
+    $scope.setPage = (pageNo) => {
         $scope.currentPage = pageNo;
     };
 
-    $scope.pageChanged = function() {
+    $scope.pageChanged = () => {
         $scope.reload();
     };
     
@@ -26,15 +26,24 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
             url: "/api/v1/chapters",
             method: "GET",
             params: params
-        }).then(function(response) {
-            $scope.chapters = response.data.data;
-            $scope.totalItems = response.data.total;
-            $scope.firstElement = (($scope.currentPage - 1) * $scope.itemsPerPage) + 1;
-            $scope.lastElement = Math.min(($scope.currentPage * $scope.itemsPerPage), $scope.totalItems);
+        }).then((response) => {
+            
+            $scope.chapters = response.data;
+            
+            $http({
+                url: "/api/v1/chapters/stats",
+                method: "GET",
+                params: params
+            }).then((response) => {
+                
+                $scope.totalItems = response.data.total;
+                $scope.firstElement = (($scope.currentPage - 1) * $scope.itemsPerPage) + 1;
+                $scope.lastElement = Math.min(($scope.currentPage * $scope.itemsPerPage), $scope.totalItems);
+            });
         });
     };
 
-    $scope.deleteChapter = function(idChapter) {
+    $scope.deleteChapter = (idChapter) => {
 
         $http
             .delete("/api/v1/chapters/" + idChapter)

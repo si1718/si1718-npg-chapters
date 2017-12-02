@@ -41,16 +41,48 @@ router.get("/", (req, res) => {
                     
                 } else {
                     
-                    return res.status(200).send({
-                        data: chapters,
-                        total: count,
-                        offset: skip,
-                        limit: limit
-                    });
+                    return res.status(200).send(chapters);
+                    
+                    // return res.status(200).send({
+                    //     data: chapters,
+                    //     total: count,
+                    //     offset: skip,
+                    //     limit: limit
+                    // });
                 }
                 
             });
         }
+    });
+});
+
+// GET method to get stats of chapters
+router.get("/stats", (req, res) => {
+    
+    var query = {};
+    var fields = ["book", "name", "pages", "researchersName", "researchers"];
+
+    for(var i = 0; i < fields.length; i++) {
+        var key = fields[i];
+        if (req.query.hasOwnProperty(key)) {
+            query[key] = { $regex: '.*' + req.query[key] + '.*', $options: 'i' };
+        }
+    }
+
+    Chapter.count(query, (error, count) => {
+                
+        if(error) {
+            
+            console.error("ERROR: Error getting chapters from database");
+            return res.status(500).send("There was a problem finding chapters.");
+            
+        } else {
+            
+            return res.status(200).send({
+                total: count
+            });
+        }
+        
     });
 });
 
