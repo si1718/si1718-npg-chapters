@@ -19,9 +19,9 @@
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -39,6 +39,17 @@
 <script type="text/javascript" src="chapters/edit-controller.js"></script>
 
 <link rel="icon" type="image/png" href="favicon.png" />
+
+<style type="text/css">
+    .label-keyword {
+        margin-right: 3px;
+        cursor: pointer;
+    }
+    
+    .label-keyword > a {
+        color: #ffffff;
+    }
+</style>
 
 <title>
     Chapters's APP
@@ -61,10 +72,10 @@
                     Chapters
                 </a>
             </div>
-            
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <a href="#!/chapters/create" class="btn btn-success navbar-btn">
                         <i class="fa fa-plus"></i>
@@ -76,7 +87,7 @@
         </div>
         <!-- /.container -->
     </nav>
-    
+
     <!-- Full Width Image Header with Logo -->
     <!-- Image backgrounds are set within the full-width-pics.css file. -->
     <header class="image-bg-fluid-height">
@@ -85,7 +96,7 @@
 
     <!-- Content Section -->
     <section>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- Las vistas se cargan en este div por el routeProvider -->
@@ -94,10 +105,10 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
                     <p>
@@ -109,7 +120,7 @@
         </div>
         <!-- /.container -->
     </footer>
-    
+
 </body>
 
 </html>

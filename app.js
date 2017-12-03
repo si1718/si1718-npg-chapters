@@ -18,14 +18,15 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(morgan("dev"));
 
-// app.use(jwt({
-//     secret: config.app.salt,
-// }).unless({
-//     path: [
-//         /^\/api\/v1\/.*/,               // /api/v1/*
-//         /^\/api\/v1.1\/users\/.*/       // /api/v1.1/users/*
-//     ]
-// }));
+app.use(jwt({
+    secret: config.app.salt,
+}).unless({
+    path: [
+        /^\/robots.txt/,                // /robots.txt
+        /^\/api\/v1\/.*/,               // /api/v1/*
+        /^\/api\/v1.1\/users\/.*/       // /api/v1.1/users/*
+    ]
+}));
 
 var ChapterController = require("./chapters/ChapterController");
 app.use("/api/v1/chapters", ChapterController);

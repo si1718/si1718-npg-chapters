@@ -20,35 +20,144 @@
                     <label for="book">
                         Book's ISBN
                     </label>
-                    <input type="text" id="book" class="form-control" ng-model="updateChapter.book" value="{{updateChapter.book}}" placeholder="Book's ISBN" required />
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" id="book" class="form-control" ng-model="updateChapter.book.key" value="{{updateChapter.book}}" placeholder="Book's ISBN" />
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <button class="btn btn-info" ng-click="validateISBN()" id="book-validate-button">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Validate
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="name">
-                        Chapter's Name
-                    </label>
-                    <input type="text" id="name" class="form-control" ng-model="updateChapter.name" value="{{updateChapter.name}}" placeholder="Chapter's Name" required />
-                </div>
-                
-                <div class="form-group">
-                    <label for="pages">
-                        Chapter's Pages
-                    </label>
-                    <input type="text" id="pages" class="form-control" ng-model="updateChapter.pages" value="{{updateChapter.pages}}" placeholder="Chapter's Pages" required />
-                </div>
-                
-                <div class="form-group">
-                    <label for="researchersName">
-                        Researchers's Name
-                    </label>
-                    <input type="text" id="researchersName" class="form-control" ng-model="updateChapter.researchersName" value="{{updateChapter.researchersName}}" placeholder="Researchers's Name" required />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="name">
+                                Chapter's Name
+                            </label>
+                            <input type="text" id="name" class="form-control" ng-model="updateChapter.name" value="{{updateChapter.name}}" placeholder="Chapter's Name" />
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="pages">
+                                Chapter's Pages
+                            </label>
+                            <input type="text" id="pages" class="form-control" ng-model="updateChapter.pages" value="{{updateChapter.pages}}" placeholder="Chapter's Pages" />
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="researchers">
                         Researchers's Key
                     </label>
-                    <input type="text" id="researchers" class="form-control" ng-model="updateChapter.researchers" value="{{updateChapter.researchers}}" placeholder="Researchers's Key" required />
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" id="researchers" class="form-control" ng-model="researcher" placeholder="Researchers's Key" />
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <button class="btn btn-info" ng-click="validateAndAddResearchers()" id="researchers-validate-button">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Validate and add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered">
+                                
+                                <thread>
+                                    <tr>
+                                        <th class="text-center">
+                                            Key
+                                        </th>
+                                        <th class="text-center">
+                                            Name
+                                        </th>
+                                        <th class="text-center">
+                                            View
+                                        </th>
+                                        <th class="text-center">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thread>
+                
+                                <tbody>
+                                    <tr ng-repeat="researcher in updateChapter.researchers">
+                                        <td class="text-center">
+                                            {{researcher.key}}
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            {{researcher.name}}
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            <a href="{{researcher.view}}" target="_blank">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            
+                                            <button ng-click="validateResearcher($index)" class="btn btn-info" ng-if="!isUrlValid(researcher.key)">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                            
+                                            <button ng-click="deleteResearcher($index)" class="btn btn-danger">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="keywords">
+                        Keywords
+                    </label>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" id="keywords" class="form-control" ng-model="keyword" placeholder="Keywords" />
+                        </div>
+
+                        <div class="col-xs-6 text-center">
+                            <button class="btn btn-info" ng-click="addKeyword()" id="keyword-add-button">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Add
+                            </button>
+
+                            <button class="btn btn-danger" ng-click="cleanKeywords()">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                Clean
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="well">
+                            <span class="label label-info label-keyword" ng-repeat="word in updateChapter.keywords" ng-click="deleteKeyword($index)">{{word}}</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="row">

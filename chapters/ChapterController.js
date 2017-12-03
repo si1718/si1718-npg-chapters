@@ -10,15 +10,57 @@ var Chapter = require("./Chapter");
 // GET method to get all chapters saved in the database.
 router.get("/", (req, res) => {
     
-    var query = {};
-    var fields = ["book", "name", "pages", "researchersName", "researchers"];
-
-    for(var i = 0; i < fields.length; i++) {
-        var key = fields[i];
-        if (req.query.hasOwnProperty(key)) {
-            query[key] = { $regex: '.*' + req.query[key] + '.*', $options: 'i' };
-        }
+    var logic = [];
+    
+    if(req.query.hasOwnProperty('name')) {
+        
+        var name = {
+            $or: [
+                {'name': {$regex: '.*' + req.query['name'] + '.*', $options: 'i'}}
+            ]
+        };
+        
+        logic.push(name);
     }
+    
+    if(req.query.hasOwnProperty('pages')) {
+        
+        var pages = {
+            $or: [
+                {'pages': {$regex: '.*' + req.query['pages'] + '.*', $options: 'i'}}
+            ]
+        };
+        
+        logic.push(pages);
+    }
+    
+    if(req.query.hasOwnProperty('book')) {
+        
+        var book = {
+            $or: [
+                {'book.key': {$regex: '.*' + req.query['book'] + '.*', $options: 'i'}},
+                {'book.title': { $regex: '.*' + req.query['book'] + '.*', $options: 'i' }},
+                {'book.view': { $regex: '.*' + req.query['book'] + '.*', $options: 'i' }}
+            ]
+        };
+        
+        logic.push(book);
+    }
+    
+    if(req.query.hasOwnProperty('researchers')) {
+        
+        var researchers = {
+            $or: [
+                {'researchers.key': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }},
+                {'researchers.name': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }},
+                {'researchers.view': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }}
+            ]
+        };
+        
+        logic.push(researchers);
+    }
+    
+    var query = (logic.length > 0) ? {$and: logic} : {};
     
     var skip = (req.query.skip) ? parseInt(req.query.skip, 10) : 0;
     var limit = (req.query.limit) ? parseInt(req.query.limit, 10) : 100;
@@ -32,26 +74,7 @@ router.get("/", (req, res) => {
 
         } else {
             
-            Chapter.count(query, (error, count) => {
-                
-                if(error) {
-                    
-                    console.error("ERROR: Error getting chapters from database");
-                    return res.status(500).send("There was a problem finding chapters.");
-                    
-                } else {
-                    
-                    return res.status(200).send(chapters);
-                    
-                    // return res.status(200).send({
-                    //     data: chapters,
-                    //     total: count,
-                    //     offset: skip,
-                    //     limit: limit
-                    // });
-                }
-                
-            });
+            return res.status(200).send(chapters);
         }
     });
 });
@@ -59,15 +82,57 @@ router.get("/", (req, res) => {
 // GET method to get stats of chapters
 router.get("/stats", (req, res) => {
     
-    var query = {};
-    var fields = ["book", "name", "pages", "researchersName", "researchers"];
-
-    for(var i = 0; i < fields.length; i++) {
-        var key = fields[i];
-        if (req.query.hasOwnProperty(key)) {
-            query[key] = { $regex: '.*' + req.query[key] + '.*', $options: 'i' };
-        }
+    var logic = [];
+    
+    if(req.query.hasOwnProperty('name')) {
+        
+        var name = {
+            $or: [
+                {'name': {$regex: '.*' + req.query['name'] + '.*', $options: 'i'}}
+            ]
+        };
+        
+        logic.push(name);
     }
+    
+    if(req.query.hasOwnProperty('pages')) {
+        
+        var pages = {
+            $or: [
+                {'pages': {$regex: '.*' + req.query['pages'] + '.*', $options: 'i'}}
+            ]
+        };
+        
+        logic.push(pages);
+    }
+    
+    if(req.query.hasOwnProperty('book')) {
+        
+        var book = {
+            $or: [
+                {'book.key': {$regex: '.*' + req.query['book'] + '.*', $options: 'i'}},
+                {'book.title': { $regex: '.*' + req.query['book'] + '.*', $options: 'i' }},
+                {'book.view': { $regex: '.*' + req.query['book'] + '.*', $options: 'i' }}
+            ]
+        };
+        
+        logic.push(book);
+    }
+    
+    if(req.query.hasOwnProperty('researchers')) {
+        
+        var researchers = {
+            $or: [
+                {'researchers.key': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }},
+                {'researchers.name': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }},
+                {'researchers.view': { $regex: '.*' + req.query['researchers'] + '.*', $options: 'i' }}
+            ]
+        };
+        
+        logic.push(researchers);
+    }
+    
+    var query = (logic.length > 0) ? {$and: logic} : {};
 
     Chapter.count(query, (error, count) => {
                 
@@ -92,8 +157,7 @@ router.get("/:idChapter", (req, res) => {
     let idChapter = req.params.idChapter;
 
     if (!idChapter) {
-
-        console.warn("WARNING: GET request to " + req.originalUrl + " without idChapter");
+        
         return res.status(400).send("Please indicate to /chapters/:idChapter param");
 
     } else {
@@ -132,7 +196,7 @@ router.post("/", (req, res) => {
 
     } else {
 
-        if (!body.book || !body.name || !body.pages || !body.researchers || !body.researchersName) {
+        if (!body.book || !body.name || !body.pages || !body.researchers) {
 
             console.warn("WARNING: The body to new chapter " + JSON.stringify(body, 2, null) + " is not well-formed.");
             return res.status(422).send("Please, indicate correct data to create a new chapter");
@@ -141,8 +205,11 @@ router.post("/", (req, res) => {
 
             let idChapter = Chapter.generateChapterId(body.book, body.name, body.researchers);
             body.idChapter = idChapter;
+            body.viewURL = 'https://si1718-npg-chapters.herokuapp.com/#!/chapters/' + idChapter + '/edit';
+            
+            var query = { "idChapter": body.idChapter };
 
-            Chapter.findOne({ "idChapter": body.idChapter }, (error, chapter) => {
+            Chapter.findOne(query, (error, chapter) => {
 
                 if (error) {
 
@@ -164,7 +231,8 @@ router.post("/", (req, res) => {
                             name: body.name,
                             pages: body.pages,
                             researchers: body.researchers,
-                            researchersName: body.researchersName
+                            viewURL: body.viewURL,
+                            keywords: body.keywords
                         }, (error, chapter) => {
 
                             if (error) {
@@ -196,7 +264,6 @@ router.put("/:idChapter", (req, res) => {
 
     if (!idChapter) {
 
-        console.warn("WARNING: PUT request to " + req.originalUrl + " without idChapter");
         return res.status(400).send("Please indicate to /chapters/:idChapter param");
 
     } else {
@@ -231,7 +298,7 @@ router.put("/", (req, res) => {
 });
 
 // DELETE method to delete all chapters saved in the database.
-router.delete('/', (req, res) => {
+/** router.delete('/', (req, res) => {
 
     Chapter.deleteMany({}, (error, chapter) => {
 
@@ -246,7 +313,7 @@ router.delete('/', (req, res) => {
         }
     });
 
-});
+}); **/
 
 // DELETE method to delete specific chapter in the database.
 router.delete("/:idChapter", (req, res) => {

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 
     <div class="row">
         
@@ -62,10 +62,7 @@
                                 Pages
                             </th>
                             <th class="text-center">
-                                Researchers`s name
-                            </th>
-                            <th class="text-center">
-                                Researchers`s key
+                                Researchers
                             </th>
                             <th class="text-center">
                                 Actions
@@ -76,8 +73,8 @@
                     <tbody>
                         <tr ng-repeat="chapter in chapters">
                             <td class="text-center">
-                                <a href="#!/chapters/{{chapter.idChapter}}/edit" class="btn btn-primary">
-                                    {{chapter.book}}
+                                <a href="{{chapter.book.view}}" target="_blank" class="btn btn-primary">
+                                    {{chapter.book.title}}
                                 </a>
                             </td>
                             <td class="text-center">
@@ -87,21 +84,23 @@
                                 {{chapter.pages}}
                             </td>
                             <td class="text-center">
-                                <span class="badge" ng-repeat="researcherName in chapter.researchersName">
-                                    {{researcherName}}
+                                <span class="label label-info label-keyword" ng-repeat="researcher in chapter.researchers">
+                                    <a href="{{researcher.view}}" target="_blank">
+                                        {{researcher.name}}
+                                    </a>
                                 </span>
                                 &nbsp;
                             </td>
                             <td class="text-center">
-                                <span class="badge" ng-repeat="researcher in chapter.researchers">
-                                    {{researcher}}
-                                </span>
-                                &nbsp;
-                            </td>
-                            <td class="text-center">
-                                <button ng-click="deleteChapter(chapter.idChapter)" class="btn btn-danger btn-block">
+                                
+                                <a href="#!/chapters/{{chapter.idChapter}}/edit" class="btn btn-warning btn-xs">
+                                    <i class="fa fa-edit" arial-hidden="true"></i>
+                                </a>
+                                
+                                <button ng-click="deleteChapter(chapter.idChapter)" class="btn btn-danger btn-xs">
                                     <i class="fa fa-trash"></i>
                                 </button>
+
                             </td>
                         </tr>
                     </tbody>
@@ -118,10 +117,7 @@
                                 <input type="text" id="pages" class="form-control" ng-model="searchChapter.pages" placeholder="Chapter's Pages" required />
                             </td>
                             <td>
-                                <input type="text" id="researchersName" class="form-control" ng-model="searchChapter.researchersName" placeholder="Researchers's Name" required />
-                            </td>
-                            <td>
-                                <input type="text" id="researchers" class="form-control" ng-model="searchChapter.researchers" placeholder="Researchers's Key" required />
+                                <input type="text" id="researchers" class="form-control" ng-model="searchChapter.researchers" placeholder="Researchers's" required />
                             </td>
                             <td>
                                 <button class="btn btn-info btn-block" ng-click="reload(true)">
