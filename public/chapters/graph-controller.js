@@ -105,10 +105,13 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
                 },
                 yAxis: {
                     title: {
-                        text: '# of researchers'
+                        text: '# of chapters'
                     }
                 },
                 xAxis: {
+                    title: {
+                        text: '# of reserarchers'
+                    },
                     categories: categories
                 },
                 plotOptions: {
