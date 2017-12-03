@@ -62,8 +62,8 @@ router.get("/", (req, res) => {
     
     var query = (logic.length > 0) ? {$and: logic} : {};
     
-    var skip = (req.query.skip) ? parseInt(req.query.skip, 10) : 0;
-    var limit = (req.query.limit) ? parseInt(req.query.limit, 10) : 100;
+    var skip = (req.query.skip) ? parseInt(req.query.skip, 10) : null;
+    var limit = (req.query.limit) ? parseInt(req.query.limit, 10) : null;
 
     Chapter.find(query, null, {skip: skip, limit: limit, order: "name"}, (error, chapters) => {
 
@@ -148,6 +148,39 @@ router.get("/stats", (req, res) => {
             });
         }
         
+    });
+});
+
+router.get('/graph', (req, res) => {
+    
+    var graph = {};
+    
+    var aggregation = [
+        {
+            $project : {
+                name: {
+                    $toUpper: "$_id"
+                } , _id: 0
+            }
+        },
+        {
+            $sort : {
+                name: 1
+            }
+        }
+    ];
+    
+    Chapter.aggregate(aggregation, function(error, graph) {
+        
+        if(error) {
+            
+            console.error("ERROR: Getting chapters from database error by: " + error);
+            return res.status(500).send("There was a problem getting graph.");
+            
+        } else {
+            
+            return res.status(200).send(graph);
+        }
     });
 });
 

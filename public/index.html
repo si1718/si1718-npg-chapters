@@ -33,10 +33,14 @@
 
 <script type="text/javascript" src="bower_components/izitoast/dist/js/iziToast.min.js"></script>
 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 <script type="text/javascript" src="chapters/manager-app.js"></script>
 <script type="text/javascript" src="chapters/list-controller.js"></script>
 <script type="text/javascript" src="chapters/create-controller.js"></script>
 <script type="text/javascript" src="chapters/edit-controller.js"></script>
+<script type="text/javascript" src="chapters/graph-controller.js"></script>
 
 <link rel="icon" type="image/png" href="favicon.png" />
 
@@ -77,10 +81,19 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <ul class="nav navbar-nav navbar-right">
-                    <a href="#!/chapters/create" class="btn btn-success navbar-btn">
-                        <i class="fa fa-plus"></i>
-                        Add
-                    </a>
+                    <li>
+                        <a href="#!/graph">
+                            <i class="fa fa-area-chart" aria-hidden="true"></i>
+                            Graph
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="#!/chapters/create">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            New chapter
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

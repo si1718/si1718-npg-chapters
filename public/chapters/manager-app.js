@@ -14,5 +14,8 @@ var app = angular.module("ChapterManagerApp", [
     }).when("/chapters/create", {
         templateUrl: "create.html",
         controller: "CreateController"
+    }).when("/graph", {
+        templateUrl: "graph.html",
+        controller: "GraphController"
     });
 });
