@@ -23,6 +23,7 @@ app.use(jwt({
 }).unless({
     path: [
         /^\/robots.txt/,                // /robots.txt
+        /^\/favicon/,                   // /favicon
         /^\/api\/v1\/.*/,               // /api/v1/*
         /^\/api\/v1.1\/users\/.*/       // /api/v1.1/users/*
     ]

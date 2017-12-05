@@ -15,27 +15,27 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
     $scope.pageChanged = () => {
         $scope.reload();
     };
-    
+
     $scope.reload = (newSearch) => {
-        
+
         var params = ($scope.searchChapter) ? $scope.searchChapter : {};
         params["skip"] = (newSearch) ? 0 : ($scope.currentPage - 1) * $scope.itemsPerPage;
         params["limit"] = $scope.itemsPerPage;
-        
+
         $http({
             url: "/api/v1/chapters",
             method: "GET",
             params: params
         }).then((response) => {
-            
+
             $scope.chapters = response.data;
-            
+
             $http({
                 url: "/api/v1/chapters/stats",
                 method: "GET",
                 params: params
             }).then((response) => {
-                
+
                 $scope.totalItems = response.data.total;
                 $scope.firstElement = (($scope.currentPage - 1) * $scope.itemsPerPage) + 1;
                 $scope.lastElement = Math.min(($scope.currentPage * $scope.itemsPerPage), $scope.totalItems);
@@ -45,12 +45,30 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
 
     $scope.deleteChapter = (idChapter) => {
 
-        $http
-            .delete("/api/v1/chapters/" + idChapter)
-            .then(function(response) {
-                $scope.reload();
-            });
+        swal({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this chapter!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            
+            if (result.value) {
+                
+                swal('Deleted!', 'Your chapter has been deleted.', 'success');
+
+                $http
+                    .delete("/api/v1/chapters/" + idChapter)
+                    .then(function(response) {
+                        $scope.reload();
+                    });
+                    
+            } else if (result.dismiss === 'cancel') {
+                swal('Cancelled', 'Your chapter is safe :)', 'error');
+            }
+        });
     };
-    
+
     $scope.reload(false);
 }]);

@@ -1,10 +1,10 @@
 <div class="container-fluid">
 
     <div class="row">
-        
+
         <div class="col-xs-12">
             <div class="row">
-                
+
                 <div class="col-xs-3">
                     <form class="form-inline" style="margin-top: 8%;">
                         Show
@@ -14,34 +14,23 @@
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</opion>
-                        </select>
-                        chapters
+                        </select> chapters
                     </form>
                 </div>
-                
+
                 <div class="col-xs-6 text-center">
-                    
-                    <ul uib-pagination
-                        boundary-links="true"
-                        total-items="totalItems"
-                        ng-model="currentPage"
-                        max-size="maxButtonSize"
-                        items-per-page="itemsPerPage"
-                        ng-change="pageChanged()"
-                        previous-text="&lsaquo;"
-                        next-text="&rsaquo;"
-                        first-text="&laquo;"
-                        last-text="&raquo;">
+
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" max-size="maxButtonSize" items-per-page="itemsPerPage" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
                     </ul>
-                    
+
                 </div>
-                
+
                 <div class="col-xs-3">
                     <p style="margin-top: 11%;">
                         Showing {{firstElement}} to {{lastElement}} of <strong id="totalItems">{{totalItems}}</strong> chapters.
                     </p>
                 </div>
-                
+
             </div>
         </div>
 
@@ -49,7 +38,7 @@
 
             <div class="table-responsive">
                 <table id="dataTable-chapters" class="table table-hover table-striped table-bordered">
-                    
+
                     <thread>
                         <tr>
                             <th class="text-center">
@@ -69,12 +58,18 @@
                             </th>
                         </tr>
                     </thread>
-    
+
                     <tbody>
                         <tr ng-repeat="chapter in chapters">
                             <td class="text-center">
                                 <a href="{{chapter.book.view}}" target="_blank" class="btn btn-primary">
-                                    {{chapter.book.title}}
+                                    <span ng-if="chapter.book.title">
+                                        {{chapter.book.title}}
+                                    </span>
+                                    
+                                    <span ng-if="!chapter.book.title">
+                                        {{chapter.book.key}}
+                                    </span>
                                 </a>
                             </td>
                             <td class="text-center">
@@ -88,23 +83,33 @@
                                     <a href="{{researcher.view}}" target="_blank">
                                         {{researcher.name}}
                                     </a>
-                                </span>
-                                &nbsp;
+                                </span> &nbsp;
                             </td>
                             <td class="text-center">
-                                
-                                <a href="#!/chapters/{{chapter.idChapter}}/edit" class="btn btn-warning btn-xs">
-                                    <i class="fa fa-edit" arial-hidden="true"></i>
-                                </a>
-                                
-                                <button ng-click="deleteChapter(chapter.idChapter)" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i>
-                                </button>
 
+                                <div class="row">
+                                    <div class="col-xs-12" style="margin-bottom: 5px;">
+                                        <a href="#!/chapters/{{chapter.idChapter}}/view" class="btn btn-info btn-xs">
+                                            <i class="fa fa-eye" arial-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="col-xs-12" style="margin-bottom: 5px;">
+                                        <a href="#!/chapters/{{chapter.idChapter}}/edit" class="btn btn-warning btn-xs">
+                                            <i class="fa fa-edit" arial-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="col-xs-12" style="margin-bottom: 5px;">
+                                        <button ng-click="deleteChapter(chapter.idChapter)" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
-                    
+
                     <tfooter>
                         <tr>
                             <td>
@@ -126,15 +131,15 @@
                             </td>
                         </tr>
                     </tfooter>
-                    
+
                 </table>
             </div>
 
         </div>
-        
+
         <div class="col-xs-12">
             <div class="row">
-                
+
                 <div class="col-xs-3">
                     <form class="form-inline" style="margin-top: 8%;">
                         Show
@@ -144,34 +149,23 @@
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
-                        </select>
-                        chapters
+                        </select> chapters
                     </form>
                 </div>
-                
+
                 <div class="col-xs-6 text-center">
-                    
-                    <ul uib-pagination
-                        boundary-links="true"
-                        total-items="totalItems"
-                        ng-model="currentPage"
-                        max-size="maxButtonSize"
-                        items-per-page="itemsPerPage"
-                        ng-change="pageChanged()"
-                        previous-text="&lsaquo;"
-                        next-text="&rsaquo;"
-                        first-text="&laquo;"
-                        last-text="&raquo;">
+
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" max-size="maxButtonSize" items-per-page="itemsPerPage" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
                     </ul>
-                    
+
                 </div>
-                
+
                 <div class="col-xs-3">
                     <p style="margin-top: 11%;">
                         Showing {{((currentPage - 1) * itemsPerPage) + 1}} to {{currentPage * itemsPerPage}} of {{totalItems}} chapters.
                     </p>
                 </div>
-                
+
             </div>
         </div>
 

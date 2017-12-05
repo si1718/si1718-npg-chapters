@@ -1,0 +1,156 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-xs-12">
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="text-center">
+                        Chapter {{idChapter}}
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="text-center">
+                                Book
+                            </h3>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="list-group">
+                                <a href="{{chapter.book.key}}" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        Key
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{chapter.book.key}}
+                                    </p>
+                                </a>
+                                <a class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        Title
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{chapter.book.title}}
+                                    </p>
+                                </a>
+                                <a href="{{chapter.book.view}}" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        View
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{chapter.book.view}}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="text-center">
+                                Chapter's Name
+                            </h3>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="well">
+                                {{chapter.name}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="text-center">
+                                Chapter's Pages
+                            </h3>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="well">
+                                {{chapter.pages}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="text-center">
+                                Researchers
+                            </h3>
+                        </div>
+                        
+                        <div class="col-xs-12" ng-repeat="researcher in chapter.researchers">
+
+                            <div class="list-group">
+                                <a href="{{researcher.key}}" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        Key
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{researcher.key}}
+                                    </p>
+                                </a>
+
+                                <a class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        Name
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{researcher.name}}
+                                    </p>
+                                </a>
+
+                                <a href="{{researcher.view}}" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        View
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        {{researcher.view}}
+                                    </p>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>
+                                Keywords
+                            </h3>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="well">
+                                <span class="label label-info label-keyword" ng-repeat="word in chapters.keywords">
+                                    {{word}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <a href="/" class="btn btn-info">
+                                <i class="fa fa-arrow-left"></i>
+                                Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -4,7 +4,8 @@ var app = angular.module("ChapterManagerApp");
 app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
 
     $http
-        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/chapters')
+        // Limit of the chapter's quantity because heroku returns a memory exception
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/chapters?skip=0&limit=30000')
         .then(function(response) {
 
             $scope.chapters = response.data;
@@ -54,6 +55,9 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
                             }
                         },
                         xAxis: {
+                            title: {
+                                text: 'Years'
+                            },
                             categories: categories
                         },
                         plotOptions: {
@@ -66,6 +70,7 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
                         },
                         series: [{
                             name: 'Researchers',
+                            showInLegend: false,
                             data: values
                         }],
                     });
@@ -124,6 +129,7 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
                 },
                 series: [{
                     name: 'Researchers',
+                    showInLegend: false,
                     data: values
                 }],
             });

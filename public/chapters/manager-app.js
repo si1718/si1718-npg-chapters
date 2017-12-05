@@ -8,6 +8,9 @@ var app = angular.module("ChapterManagerApp", [
     $routeProvider.when("/", {
         templateUrl: "list.html",
         controller: "ListController"
+    }).when("/chapters/:idChapter/view", {
+        templateUrl: "view.html",
+        controller: "ViewController"
     }).when("/chapters/:idChapter/edit", {
         templateUrl: "edit.html",
         controller: "EditController"
