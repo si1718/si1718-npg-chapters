@@ -24,8 +24,8 @@ app.use(jwt({
     path: [
         /^\/robots.txt/,                // /robots.txt
         /^\/favicon/,                   // /favicon
-        /^\/api\/v1\/.*/,               // /api/v1/*
-        /^\/api\/v1.1\/users\/.*/       // /api/v1.1/users/*
+        /^\/api\/v1.*/,                 // /api/v1/*
+        /^\/api\/v1.1\/users.*/         // /api/v1.1/users*
     ]
 }));
 
@@ -35,5 +35,8 @@ app.use("/api/v1.1/chapters", ChapterController);
 
 var UserController = require("./users/UserController");
 app.use("/api/v1.1/users", UserController);
+
+var StatisticController = require("./statistics/StatisticController");
+app.use("/api/v1/statistics", StatisticController);
 
 module.exports = app;

@@ -87,10 +87,10 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
             var series = [];
 
             $scope.chapters.forEach((chapter) => {
-                
+
                 let numberOfResearchers = chapter.researchers.length;
-                
-                (series[numberOfResearchers]) ? series[numberOfResearchers]++ : series[numberOfResearchers] = 1;
+
+                (series[numberOfResearchers]) ? series[numberOfResearchers]++: series[numberOfResearchers] = 1;
             });
 
             var categories = [];
@@ -142,4 +142,223 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
                 message: 'Error getting chapters.'
             });
         });
+
+    $http
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/statistics')
+        .then(function(response) {
+
+            $scope.statistics = response.data;
+
+            var seriesDaily = [];
+            var categoriesDaily = [];
+
+            var seriesMonthly = [];
+            var categoriesMonthly = [];
+
+            var dates = [];
+            var datesMonthly = [];
+            var keywords = [];
+
+            var statisticsMonthly = [];
+            
+            var count = 0;
+
+            $scope.statistics.forEach((statistic) => {
+
+                statistic.date = new Date(statistic.date);
+
+                if (!isDateInArray(dates, statistic.date)) {
+                    dates.push(statistic.date);
+                }
+
+                if (!isStringInArray(keywords, statistic.keyword)) {
+                    keywords.push(statistic.keyword);
+                }
+
+                var index = statisticsMonthly.findIndex(i => ((toDateMonthString(i.date) === toDateMonthString(statistic.date)) && (i.keyword) === statistic.keyword));
+
+                if (index >= 0) {
+                    
+                    statisticsMonthly[index].count += statistic.count;
+
+                } else {
+
+                    statisticsMonthly.push({
+                        keyword: statistic.keyword,
+                        date: statistic.date,
+                        count: statistic.count,
+                    });
+                }
+
+                count += statistic.count;
+            });
+            
+            console.info("# total of tweets is: " + count);
+            
+            statisticsMonthly.forEach((statistic) => {
+                
+                statistic.date = new Date(statistic.date);
+                var monthOfYear = toMonthOfYearString(statistic.date);
+
+                if (!isStringInArray(datesMonthly, monthOfYear)) {
+                    datesMonthly.push(monthOfYear);
+                }
+            });
+
+            dates.sort((a, b) => {
+                return a - b;
+            });
+            
+            datesMonthly.sort((a, b) => {
+                if (a < b) return -1;
+                if (a > b) return 1;
+                return 0;
+            });
+
+            keywords.sort((a, b) => {
+                if (a < b) return -1;
+                if (a > b) return 1;
+                return 0;
+            });
+
+            keywords.forEach((keyword) => {
+                seriesDaily.push({
+                    name: keyword,
+                    data: []
+                });
+
+                seriesMonthly.push({
+                    name: keyword,
+                    data: []
+                });
+            });
+
+            dates.forEach((date) => {
+
+                // DAILY
+                var fullDateDaily = toDateString(date);
+                categoriesDaily.push(fullDateDaily);
+
+                seriesDaily.forEach((serie) => {
+
+                    var index = $scope.statistics.findIndex(i => (i.date.getTime() === date.getTime()) && (i.keyword === serie.name));
+                    var count = (index >= 0) ? $scope.statistics[index].count : 0;
+
+                    serie.data.push(count);
+                });
+            });
+            
+            datesMonthly.forEach((date) => {
+                
+                // MONTHLY
+                categoriesMonthly.push(date);
+
+                seriesMonthly.forEach((serie) => {
+
+                    var index = statisticsMonthly.findIndex(i => (toMonthOfYearString(i.date) === date) && (i.keyword === serie.name));
+                    var count = (index >= 0) ? statisticsMonthly[index].count : 0;
+
+                    serie.data.push(count);
+                });
+            });
+
+            Highcharts.chart('statistics-daily-graph', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Keywords statistics daily'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                yAxis: {
+                    title: {
+                        text: '# of tweets'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: 'days'
+                    },
+                    categories: categoriesDaily
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: seriesDaily,
+            });
+
+            Highcharts.chart('statistics-monthly-graph', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Keywords statistics monthly'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                yAxis: {
+                    title: {
+                        text: '# of tweets'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: 'days'
+                    },
+                    categories: categoriesMonthly
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: seriesMonthly,
+            });
+
+        }, function(error) {
+            iziToast.error({
+                icon: "fa fa-times",
+                title: 'Error!',
+                position: "topRight",
+                message: 'Error getting statistics.'
+            });
+        });
+
+    function isDateInArray(array, value) {
+        return !!array.find(item => { return item.getTime() == value.getTime() });
+    }
+
+    function isStringInArray(array, value) {
+        return !!array.find(item => { return item == value });
+    }
+
+    function toDateString(date) {
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    }
+
+    function toDateMonthString(date) {
+        return date.getFullYear() + '-' + (date.getMonth() + 1);
+    }
+
+    function toMonthOfYearString(date) {
+        return months[date.getMonth()] + ' of ' + date.getFullYear();
+    }
+
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 }]);
