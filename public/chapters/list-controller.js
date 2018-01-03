@@ -1,7 +1,7 @@
 // Como no le paso segundo parámetro, lo que estoy pidiendo es que me de el módulo que ya está creado
 var app = angular.module("ChapterManagerApp");
 
-app.controller("ListController", ["$scope", "$http", function($scope, $http) {
+app.controller("ListController", ["$scope", "$http", '$location', function($scope, $http, $location) {
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = 25;
@@ -42,6 +42,16 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
             });
         });
     };
+    
+    $scope.checkIfExistsNewChapters = () => {
+        
+        $http({
+            url: '/api/v1/new-chapters/stats',
+            method: 'GET',
+        }).then(response => {
+            $scope.newChaptersTotal = response.data.total;
+        });
+    };
 
     $scope.deleteChapter = (idChapter) => {
 
@@ -71,4 +81,6 @@ app.controller("ListController", ["$scope", "$http", function($scope, $http) {
     };
 
     $scope.reload(false);
+    
+    $scope.checkIfExistsNewChapters();
 }]);

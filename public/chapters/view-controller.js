@@ -11,7 +11,8 @@ app.controller("ViewController", ["$scope", "$http", "$routeParams", "$location"
 
             $scope.chapter = response.data;
 
-        }, function(error) {
+        }, error => {
+            
             iziToast.error({
                 icon: "fa fa-times",
                 title: 'Error!',
@@ -19,4 +20,21 @@ app.controller("ViewController", ["$scope", "$http", "$routeParams", "$location"
                 message: error.data
             });
         });
+
+    $http
+        .get('/api/v1/recommendations/' + $scope.idChapter)
+        .then(response => {
+            
+            $scope.recommendations = response.data.recommendations;
+            
+        }, error => {
+            
+            iziToast.error({
+                icon: "fa fa-times",
+                title: 'Error!',
+                position: "topRight",
+                message: error.data
+            });
+        });
+
 }]);

@@ -1,6 +1,19 @@
 <div class="container-fluid">
 
     <div class="row">
+        
+        <div class="col-xs-12 text-center" ng-if="newChaptersTotal > 0">
+            <div class="alert alert-info" role="alert">
+                <strong>
+                    {{newChaptersTotal}} new chapters found!
+                    Would you like to see them?
+                    <a href="#!/chapters/create" class="pull-right">
+                        <i class="fa fa-arrow-right fa-2x" arial-hidden="true"></i>
+                    </a>
+                    <span class="clearfix"></span>
+                </strong>
+            </div>
+        </div>
 
         <div class="col-xs-12">
             <div class="row">
