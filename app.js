@@ -33,6 +33,12 @@ var ChapterController = require("./chapters/ChapterController");
 app.use("/api/v1/chapters", ChapterController);
 app.use("/api/v1.1/chapters", ChapterController);
 
+var NewChapterController = require('./new_chapters/NewChapterController');
+app.use('/api/v1/new-chapters', NewChapterController);
+
+var RecommendationController = require('./recommendations/RecommendationController');
+app.use('/api/v1/recommendations', RecommendationController);
+
 var UserController = require("./users/UserController");
 app.use("/api/v1.1/users", UserController);
 

@@ -20,5 +20,8 @@ var app = angular.module("ChapterManagerApp", [
     }).when("/graph", {
         templateUrl: "graph.html",
         controller: "GraphController"
+    }).when("/news-chapters", {
+        templateUrl: "news-chapters.html",
+        controller: "NewChapterController"
     });
 });

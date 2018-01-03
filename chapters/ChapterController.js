@@ -151,9 +151,8 @@ router.get("/stats", (req, res) => {
     });
 });
 
+// GET method to get graph
 router.get('/graph', (req, res) => {
-    
-    var graph = {};
     
     var aggregation = [
         {

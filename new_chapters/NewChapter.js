@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
-var slugify = require("slugify");
 
-var ChapterSchema = new mongoose.Schema({
+var NewChapterSchema = new mongoose.Schema({
     idChapter: {
         type: String,
         required: true,
@@ -11,7 +10,7 @@ var ChapterSchema = new mongoose.Schema({
         type: {
             key: {
                 type: String,
-                required: false
+                required: true
             },
             title: {
                 type: String,
@@ -32,7 +31,7 @@ var ChapterSchema = new mongoose.Schema({
         type: [{
             key: {
                 type: String,
-                required: false
+                required: true
             },
             name: {
                 type: String,
@@ -57,22 +56,8 @@ var ChapterSchema = new mongoose.Schema({
         type: [String],
         required: true
     }
-});
+}, { collection: 'chapters_new'});
 
-mongoose.model("Chapter", ChapterSchema);
+mongoose.model("NewChapter", NewChapterSchema);
 
-module.exports = mongoose.model("Chapter");
-module.exports.generateChapterId = function(book, name, researchers) {
-    
-    var researchersKeys = [];
-    
-    for(var i = 0; i < researchers.length; i++) {
-        researchersKeys.push(researchers[i].key);
-    }
-    
-    return slugify(book.key + name + researchersKeys.toString(), {
-        replacement: '-',
-        remove: null,
-        lower: true
-    });
-};
+module.exports = mongoose.model("NewChapter");

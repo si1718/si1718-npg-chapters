@@ -55,9 +55,25 @@
         margin-right: 3px;
         cursor: pointer;
     }
-    
-    .label-keyword > a {
+
+    .label-keyword>a {
         color: #ffffff;
+    }
+
+    .vertical-center {
+        min-height: 100%;
+        /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh;
+        /* These two lines are counted as one :-)       */
+        display: flex;
+        align-items: center;
+    }
+
+    .badge-notify {
+        background: red;
+        position: relative;
+        top: -20px;
+        left: -35px;
     }
 </style>
 
@@ -93,7 +109,7 @@
                             Graph
                         </a>
                     </li>
-                    
+
                     <li>
                         <a href="#!/chapters/create">
                             <i class="fa fa-plus" aria-hidden="true"></i>
