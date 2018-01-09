@@ -42,7 +42,7 @@ app.use('/api/v1/recommendations', RecommendationController);
 var UserController = require("./users/UserController");
 app.use("/api/v1.1/users", UserController);
 
-var StatisticController = require("./statistics/StatisticController");
-app.use("/api/v1/statistics", StatisticController);
+var ReportController = require("./reports/ReportController");
+app.use("/api/v1/reports", ReportController);
 
 module.exports = app;
