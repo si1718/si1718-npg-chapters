@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
-var slugify = require("slugify");
 
-var StatisticSchema = new mongoose.Schema({
+var ReportSchema = new mongoose.Schema({
     keyword: {
         type: String,
         required: true
@@ -13,11 +12,13 @@ var StatisticSchema = new mongoose.Schema({
     count: {
         type: Number,
         required: true
+    },
+    type: {
+        type: String,
+        required: true
     }
-}, {
-    collection: 'keyword_date_tweets'
 });
 
-mongoose.model("Statistic", StatisticSchema);
+mongoose.model("Report", ReportSchema);
 
-module.exports = mongoose.model("Statistic");
+module.exports = mongoose.model("Report");
