@@ -4,7 +4,7 @@ var app = angular.module("ChapterManagerApp");
 app.controller("ListController", ["$scope", "$http", '$location', function($scope, $http, $location) {
 
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 25;
+    $scope.itemsPerPage = 5;
     $scope.totalItems = $scope.itemsPerPage;
     $scope.maxButtonSize = 5;
 
