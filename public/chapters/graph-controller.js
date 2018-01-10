@@ -12,8 +12,8 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
     $scope.selected = "";
 
     $http
-        // .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/researchers-per-year')
-        .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/researchers-per-year')
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/researchers-per-year')
+        // .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/researchers-per-year')
         .then(function(response) {
 
             let data = response.data;
@@ -70,8 +70,8 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
         });
 
     $http
-        // .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/researchers-per-chapter')
-        .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/researchers-per-chapter')
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/researchers-per-chapter')
+        // .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/researchers-per-chapter')
         .then(function(response) {
 
             let data = response.data;
@@ -128,8 +128,8 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
         });
 
     $http
-        // .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/daily')
-        .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/daily')
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/daily')
+        // .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/daily')
         .then(function(response) {
 
             let data = response.data;
@@ -196,8 +196,8 @@ app.controller("GraphController", ["$scope", "$http", function($scope, $http) {
         });
 
     $http
-        // .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/monthly')
-        .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/monthly')
+        .get('https://si1718-npg-chapters.herokuapp.com/api/v1/reports/monthly')
+        // .get('https://si1718-npg-chapters-pozas91.c9users.io/api/v1/reports/monthly')
         .then(function(response) {
             
             let data = response.data;
