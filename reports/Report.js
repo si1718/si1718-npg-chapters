@@ -3,15 +3,27 @@ var mongoose = require("mongoose");
 var ReportSchema = new mongoose.Schema({
     keyword: {
         type: String,
-        required: true
+        required: false
     },
     date: {
         type: Date,
-        required: true
+        required: false
     },
     count: {
         type: Number,
-        required: true
+        required: false
+    },
+    chapters: {
+        type: Number,
+        required: false
+    },
+    researchers: {
+        type: Number,
+        required: false
+    },
+    year: {
+        type: Number,
+        required: false
     },
     type: {
         type: String,

@@ -1,32 +1,70 @@
 <div class="container-fluid">
 
     <div class="row">
-        
+
         <div class="col-xs-12">
-            
+
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
-                    <div id="chapters-graph"></div>
+                    <div id="researchers-per-year-graph"></div>
                 </div>
-                
+
                 <div class="col-lg-6 col-xs-12">
-                    <div id="books-graph"></div>
+                    <div id="researchers-per-chapter-graph"></div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-xs-12">
                     <hr />
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
                     <div id="statistics-daily-graph"></div>
+
+                    <div class="row" ng-if="dailyGraph">
+                        
+                        <div class="col-xs-7 col-md-6">
+                            <p class="text-right text-primary">
+                                <strong>
+                                    Type keyword to compare in the daily graph:
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="col-xs-5 col-md-3">
+                            <input type="text" ng-model="selectedDaily"
+                                uib-typeahead="serie.name for serie in dailySeries | filter:$viewValue | limitTo:8"
+                                typeahead-editable="false"
+                                typeahead-on-select="onSelectDaily($item, $model, $label)"
+                                class="form-control">
+                        </div>
+                    </div>
                 </div>
-                
+
                 <div class="col-lg-6 col-xs-12">
                     <div id="statistics-monthly-graph"></div>
+                    
+                    <div class="row" ng-if="monthlyGraph">
+                        
+                        <div class="col-xs-7 col-md-6">
+                            <p class="text-right text-primary">
+                                <strong>
+                                    Type keyword to compare in the monthly graph:
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="col-xs-5 col-md-3">
+                            <input type="text" ng-model="selectedMonthly"
+                                uib-typeahead="serie.name for serie in monthlySeries | filter:$viewValue | limitTo:8"
+                                typeahead-editable="false"
+                                typeahead-on-select="onSelectMonthly($item, $model, $label)"
+                                class="form-control">
+                        </div>
+                    </div>
                 </div>
             </div>
 
